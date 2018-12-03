@@ -1,10 +1,10 @@
 //Question 1:
     //Which Neumont degree is the best?
-        //A. Web Dev
-        //B. Game Dev
-        //C. IS
-        //D. TM
-        //E. CS
+        //A. Web Development and Design
+        //B. Software and Game Development
+        //C. Information Systems
+        //D. Technology Managment
+        //E. Computer Science
 
 //Question 2:
     //Which Pokemon generation is the best?
@@ -23,3 +23,37 @@
         //C. Xbox One
         //D. Switch
         //E. I don't play games
+
+var express = require('express'),
+  pug = require('pug'),
+  bodyParser = require('body-parser'),
+  expressSession = require('express-session'),
+  path = require('path');
+
+var app = express();
+
+var checkAuth = function(req, res, next) {
+  if (req.session.user && req.session.user.isAuthenticated) {
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
+
+app.set('view engine', 'pug');
+app.set('views', __dirname+'/views');
+app.use(express.static(path.join(__dirname+'/public')));
+
+app.use(expressSession({
+  secret: 'SessionSecret10293',
+  saveUninitialized: true,
+  resave: true
+}));
+
+var urlencodedParser = bodyParser.urlencoded({extended: false});
+
+app.get('/', function(req, res){
+  res.render('home');
+});
+
+app.listen(3000);
