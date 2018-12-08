@@ -3,15 +3,16 @@ html
   head
     title Data Express
   body
-    - var user
-    #user
-      if user.isAnonymous
-        a(href="/login")
-          p Log In
-        a(href='/createaccount')
-          p Create Account
-      else
-        a(href='/logout')
-          p Log Out
-        a(href='/edit')
-          p Edit Account
+    //- - var user
+    //- #user
+    //-   if user.isAnonymous
+    //-     a(href="/login")
+    //-       p Log In
+    //-     a(href='/createaccount')
+    //-       p Create Account
+    //-   else
+    //-     a(href='/logout')
+    //-       p Log Out
+    //-     a(href='/edit')
+    //-       p Edit Account
+    block content

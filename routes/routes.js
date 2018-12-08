@@ -14,11 +14,10 @@ var accountSchema = mongoose.Schema({
     Age: String,
     Q1: String,
     Q2: String,
-    Q3: String,
+    Q3: String
   });
 
   var userAccounts = mongoose.model('Account_Collection', accountSchema);
-
 
   exports.index = function (req, res) {
     userAccounts.find(function (err, account) {
@@ -31,20 +30,20 @@ var accountSchema = mongoose.Schema({
   };
 
   exports.create = function (req, res) {
-    res.render('Login', {
-        title: 'Login'
+    res.render('create', {
+        title: 'Create Account'
     });
   };
 
   exports.createAccount = function (req, res) {
     var account = new userAccounts({
-      username: req.body.Username,
-      password: req.body.Password,
-      email: req.body.Email,
-      age: req.body.Age,
-      q1: req.body.Q1,
-      q2: req.body.Q2,
-      q3: req.body.Q3
+      Username: req.body.Username,
+      Password: req.body.Password,
+      Email: req.body.Email,
+      Age: req.body.Age,
+      Q1: req.body.Q1,
+      Q2: req.body.Q2,
+      Q3: req.body.Q3
     });
     account.save(function (err, account) {
       if (err) return console.error(err);

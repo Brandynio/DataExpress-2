@@ -1,0 +1,52 @@
+extend layout
+
+block content
+  h3 Create an Account
+  form(id='form', method='post', action='/create')
+    label Username
+    br
+    input(type='text', name='Username')
+    br
+    label Password
+    br
+    input(type='text', name='Password')
+    br
+    label Email
+    br
+    input(type='text', name='Email')
+    br
+    label Age
+    br
+    input(type='text', name='Age')
+    br
+    label Which Neumont degree is the best?
+    br
+    select(name='Q1')
+      option(value='A. Web Development and Design') A. Web Development and Design
+      option(value='B. Software and Game Development') B. Software and Game Development
+      option(value='C. Information Systems') C. Information Systems
+      option(value='D. Technology Managment') D. Technology Managment
+      option(value='E. Computer Science') E. Computer Science
+    br
+    label Which Pokemon generation is the best?
+    br
+    select(name='Q2')
+      option(value='A. Gen 1') A. Gen 1
+      option(value='B. Gen 2') B. Gen 2
+      option(value='C. Gen 3') C. Gen 3
+      option(value='D. Gen 4') D. Gen 4
+      option(value='E. Gen 5') E. Gen 5
+      option(value='F. Gen 6') F. Gen 6
+      option(value='G. Gen 7') G. Gen 7
+      option(value="H. I don't like Pokemon!") H. I don't like Pokemon!
+    br
+    label What system do you mainly play games on?
+    br
+    select(name='Q3')
+      option(name='A. PC') A. PC
+      option(name='B. PS4') B. PS4
+      option(name='C. Xbox One') C. Xbox One
+      option(name='D. Switch') D. Switch
+      option(name="E. I don't play games") E. I don't play games
+    br
+    input(type='submit', value='Create Account')

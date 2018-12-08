@@ -57,4 +57,7 @@ app.get('/', function(req, res){
   res.render('home');
 });
 
+app.get('/create', route.create);
+app.post('/create', urlencodedParser, route.createAccount);
+
 app.listen(3000);
