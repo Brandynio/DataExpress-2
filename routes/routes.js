@@ -17,15 +17,67 @@ var accountSchema = mongoose.Schema({
     Q3: String
   });
 
+  exports.checkAuth = function(req, res, next) {
+    if (req.session.user && req.session.user.isAuthenticated) {
+      next();
+    }else{
+      res.redirect('/login');
+    }
+  }
+
   var userAccounts = mongoose.model('Account_Collection', accountSchema);
 
   exports.index = function (req, res) {
-    userAccounts.find(function (err, account) {
-      if (err) return console.error(err);
-      res.render('index', {
-        title: 'Account List',
-        user: account
+    if (req.session.user == null) {
+      res.render('home', {
+        title: 'Home',
+        user: {isAuthenticated: false}
       });
+    }
+    else {
+      console.log("session username home: " + req.session.user.Username);
+      res.render('home', {
+        title: 'Home',
+        user: req.session.user
+      });
+    }
+  };
+
+  exports.login = function (req, res) {
+    res.render('login', {
+
+    });
+  };
+  
+  exports.loginPost = function (req, res) {
+    var findUser = userAccounts.findOne({Username: new RegExp('^'+req.body.Username+'$', "i")});
+    findUser.exec().then(function (acc) {
+      if(req.body.Password==acc.Password) {
+        req.session.user = {
+          isAuthenticated: true,
+          Username: acc.Username,
+          id: acc.id
+        };
+        //console.log("session user: " + req.session.user.id);
+        // console.log("acc id: " + acc.id);
+        res.redirect('/')
+        req.session.name = req.session.user.Username + " session";
+      }
+      else {
+        res.render("login"); 
+      }
+    }).catch(function (err) {
+      res.redirect('login');
+    });
+  };
+
+  exports.logout = function(req, res) {
+    req.session.destroy(function(err){
+      if(err) {
+        console.log(err);
+      }else{
+        res.redirect('/');
+      }
     });
   };
 
@@ -52,31 +104,38 @@ var accountSchema = mongoose.Schema({
     res.redirect('/');
   };
 
+
   exports.edit = function (req, res) {
-    userAccounts.findById(req.params.id, function (err, account) {
+    userAccounts.findById(req.session.user.id, function (err, account) {
       if (err) return console.error(err);
       res.render('edit', {
         title: 'Edit Account',
-        account: account
+        user: account
       });
+      // console.log(req.session.user.id);
+      // console.log(account);
     });
   };
 
   exports.editAccount = function (req, res) {
-    userAccounts.findById(req.params.id, function (err, account) {
+    userAccounts.findById(req.session.user.id, function (err, account) {
       if (err) return console.error(err);
-      account.username = req.body.Username;
-      account.password = req.body.Password;
-      account.email = req.body.Email;
-      account.age = req.body.Age;
-      account.answer1 = req.body.Q1;
-      account.answer2 = req.body.Q2;
-      account.answer3 = req.body.Q3;
-
-      accountSchema.save(function (err, account) {
+      account.Username = req.body.Username;
+      account.Password = req.body.Password;
+      account.Email = req.body.Email;
+      account.Age = req.body.Age;
+      account.Q1 = req.body.Q1;
+      account.Q2 = req.body.Q2;
+      account.Q3 = req.body.Q3;
+      req.session.user = {
+        Username: req.body.Username,
+        isAuthenticated: true
+      };
+      account.save(function (err, account) {
         if (err) return console.error(err);
         console.log(req.body.Username + ' updated');
       });
+      console.log("session username: " + req.session.user.Username);
     });
     res.redirect('/');
   };

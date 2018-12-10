@@ -1,1 +1,15 @@
 extend layout
+
+block content
+  h3 Home
+  #user
+    if user.isAuthenticated
+      a(href='/logout')
+        p Log Out
+      a(href='/edit')
+        p Edit Account
+    else
+      a(href="/login")
+        p Log In
+      a(href='/create')
+        p Create Account

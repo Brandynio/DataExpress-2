@@ -2,17 +2,8 @@ doctype html
 html
   head
     title Data Express
+    link(href="https://fonts.googleapis.com/css?family=Dosis|Lobster" rel="stylesheet")
+    link(href="style.css" rel="stylesheet")
   body
-    //- - var user
-    //- #user
-    //-   if user.isAnonymous
-    //-     a(href="/login")
-    //-       p Log In
-    //-     a(href='/createaccount')
-    //-       p Create Account
-    //-   else
-    //-     a(href='/logout')
-    //-       p Log Out
-    //-     a(href='/edit')
-    //-       p Edit Account
-    block content
+    div(id="content")
+      block content

@@ -29,6 +29,7 @@ var express = require('express'),
   bodyParser = require('body-parser'),
   expressSession = require('express-session'),
   route = require('./routes/routes.js'),
+  cookieParser = require('cookie-parser'),
   path = require('path');
 
 var app = express();
@@ -50,14 +51,17 @@ app.use(expressSession({
   saveUninitialized: true,
   resave: true
 }));
+app.use(cookieParser('passphrase'));
 
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 
-app.get('/', function(req, res){
-  res.render('home');
-});
-
+app.get('/', route.index);
 app.get('/create', route.create);
+app.get('/login', route.login);
+app.get('/edit', route.checkAuth, route.edit)
+app.get('/logout', route.logout);
 app.post('/create', urlencodedParser, route.createAccount);
+app.post('/login', urlencodedParser, route.loginPost);
+app.post('/edit', urlencodedParser, route.editAccount);
 
 app.listen(3000);
